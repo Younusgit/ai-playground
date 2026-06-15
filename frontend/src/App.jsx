@@ -1,7 +1,6 @@
 import { Routes, Route, Navigate } from 'react-router-dom'
-import { useState, useEffect } from 'react'
+import { useState } from 'react'
 import Login from './pages/Login'
-import Register from './pages/Register'
 import Chat from './pages/Chat'
 
 function App() {
@@ -20,8 +19,8 @@ function App() {
   return (
     <Routes>
       <Route path="/login" element={!token ? <Login onLogin={handleLogin} /> : <Navigate to="/" />} />
-      <Route path="/register" element={!token ? <Register onLogin={handleLogin} /> : <Navigate to="/" />} />
       <Route path="/" element={token ? <Chat token={token} onLogout={handleLogout} /> : <Navigate to="/login" />} />
+      <Route path="*" element={<Navigate to="/" />} />
     </Routes>
   )
 }
