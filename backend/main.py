@@ -3,7 +3,7 @@ from fastapi.middleware.cors import CORSMiddleware
 from contextlib import asynccontextmanager
 import logging
 
-from api.routes import auth, chat, models, admin, usage
+from api.routes import chat, models, admin
 from middleware.rate_limiter import RateLimitMiddleware
 from services.database import init_db
 
@@ -21,7 +21,6 @@ async def lifespan(app: FastAPI):
 
 app = FastAPI(
     title="AI Playground API",
-    description="Multi-model AI Playground SaaS Platform",
     version="1.0.0",
     lifespan=lifespan
 )
@@ -36,16 +35,14 @@ app.add_middleware(
 
 app.add_middleware(RateLimitMiddleware)
 
-app.include_router(auth.router, prefix="/api/auth", tags=["Authentication"])
 app.include_router(chat.router, prefix="/api/chat", tags=["Chat"])
 app.include_router(models.router, prefix="/api/models", tags=["Models"])
 app.include_router(admin.router, prefix="/api/admin", tags=["Admin"])
-app.include_router(usage.router, prefix="/api/usage", tags=["Usage"])
 
 
 @app.get("/")
 async def root():
-    return {"message": "AI Playground API is running", "version": "1.0.0"}
+    return {"message": "AI Playground API is running"}
 
 
 @app.get("/health")
